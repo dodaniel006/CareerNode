@@ -5,6 +5,10 @@ function App() {
   const [posts, setPosts] = useState<string[]>([]);
   const [title, setTitle] = useState<string>("");
 
+  if (posts.length > 0) {
+    document.getElementById("postList")?.classList.remove("d-none");
+  }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
     e.preventDefault();
@@ -23,50 +27,92 @@ function App() {
   return (
     <>
       <Header />
-      <div className="container mt-4">
-        <div className="row justify-content-center">
-          <div className="col-12 col-md-8 text-center">
-            <div className="d-flex justify-content-center gap-4 mb-3">
-            </div>
-            <h1 className="display-4 mb-3">CareerNode</h1>
-            <p className="text">Track your job applications and stay organized on your career journey.</p>
-            <div className="card shadow-sm mb-3">
-              <div className="card-body">
-                <form className="mb-3" onSubmit={handleSubmit}>
-                  <div className="">
-                    <input
-                      type="text"
-                      className="form-control mb-3"
-                      placeholder="Enter post title"
-                      name="postTitle"
-                      onChange={
-                        (event) => { if (event) { setTitle(event.target.value) } } } //Update the title state
-                    />
+      <div className="container mt-4 row justify-content-center col-12 col-md-8 text-center mx-auto">
 
+        <h1 className="display-4 mb-3">CareerNode</h1>
+        <p className="text">Track your job applications and stay organized on your career journey.</p>
+
+        <div className="card shadow-sm mb-3" style={{ maxHeight: '500px' }}>
+          <div className="card-body">
+
+            {/* Button to open modal */}
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Add Post
+            </button>
+
+            {/* Bootstrap Modal */}
+            <div
+              className="modal fade"
+              id="exampleModal"
+              tabIndex={-1}
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">Modal Title</h5>
                     <button
-                      type="submit"
-                      className="btn btn-primary mt-3"
-                    >
-                      Add Post
-                    </button>
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
 
-                </form>
+                  <div className="modal-body">
 
-                <ul className="list-unstyled">
-                  {posts.map((posts, index) => (
-                    <li key={index} className="border py-2 mt-2">
-                      {posts}
-                    </li>
-                  ))}
-                </ul>
+                    <form className="mb-3" onSubmit={handleSubmit}>
+                        <input
+                          type="text"
+                          className="form-control mb-3"
+                          placeholder="Enter Job Title"
+                          name="postTitle"
+                          onChange={
+                            (event) => { if (event) { setTitle(event.target.value) } }} //Update the title state
+                        />
+
+                        <button
+                          type="submit"
+                          className="btn btn-primary mt-3"
+                        >
+                          Add Post
+                        </button>
+                    </form>
+                  </div>
+
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <p className="text-muted">
-              Daniel Do © 2025
-            </p>
+
+            <ul id="postList" className="list-unstyled d-none mt-3 mb-1">
+              {posts.map((posts, index) => (
+                <li key={index} className="border py-2 mt-2">
+                  {posts}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
+
+        <p className="text-muted">
+          Daniel Do © 2025
+        </p>
+
       </div>
     </>
   )
