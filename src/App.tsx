@@ -89,7 +89,7 @@ function App() {
                         type="text"
                         className="form-control mb-3"
                         placeholder="Enter Job Title"
-                        name="postTitle"
+                        id="postTitle"
                         onChange={(event) => setTitle(event.target.value)}
                         required
                       />
@@ -99,7 +99,7 @@ function App() {
                         type="text"
                         className="form-control mb-3"
                         placeholder="Enter Company Name"
-                        name="companyName"
+                        id="companyName"
                         onChange={(event) => setCompanyName(event.target.value)}
                         required
                       />
@@ -109,7 +109,7 @@ function App() {
                         type="date"
                         className="form-control mb-3"
                         placeholder="Enter Application Date"
-                        name="applicationDate"
+                        id="applicationDate"
                         onChange={(event) => setApplicationDate(event.target.value)}
                         required
                       />
@@ -117,7 +117,7 @@ function App() {
                       <label htmlFor="status">Application Status</label>
                       <select
                         className="form-select mb-3"
-                        name="status"
+                        id="status"
                         onChange={(event) => setStatus(event.target.value)}
                         defaultValue=""
                         required
