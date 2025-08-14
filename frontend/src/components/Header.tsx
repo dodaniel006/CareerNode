@@ -19,11 +19,17 @@ function Header() {
                 </a>
 
                 {/* <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0"> */}
-                    <button onClick={fetchHelloMessage} className="btn btn-outline-success px-3">Hear from Server</button>
+                <button onClick={fetchHelloMessage} className="btn btn-outline-success px-3">Hear from Server</button>
                 {/* </ul> */}
 
                 <div className="col-md-3 text-end">
-                    <button type="button" className="btn btn-outline-primary me-2">Login</button>
+                    <button
+                        type="button"
+                        onClick={() => window.location.href = '/login'}
+                        className="btn btn-outline-primary me-2"
+                    >
+                        Login
+                    </button>
                     <button type="button" className="btn btn-primary">Sign-up</button>
                 </div>
             </header>
