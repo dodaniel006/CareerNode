@@ -1,6 +1,18 @@
 import express from 'express';
+import 'dotenv/config';
 const app = express();
 const PORT = 8080;
+
+import { MongoClient, ServerApiVersion } from 'mongodb';
+const uri = `mongodb+srv://CareerNodeAdmin:${process.env.DB_PASSWORD}@careernode.xwjdhbh.mongodb.net/?retryWrites=true&w=majority&appName=CareerNode`;
+
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true
+    }
+});
 
 import cors from 'cors';
 const corsOptions = {
