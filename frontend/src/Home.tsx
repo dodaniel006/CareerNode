@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-import Header from './components/Header.tsx';
-
 function Home({ posts, setPosts }: { posts: { title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[], setPosts: React.Dispatch<React.SetStateAction<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>> }) {
     const [title, setTitle] = useState<string>("");
     const [companyName, setCompanyName] = useState<string>("");
@@ -40,7 +38,6 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
 
     return (
         <>
-            <Header />
             <div className="container mt-4 row justify-content-center col-12 col-md-8 text-center mx-auto">
 
                 <h1 className="display-4 mb-3">CareerNode</h1>
