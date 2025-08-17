@@ -1,9 +1,10 @@
-function Login() {
+function Signup() {
+
     return (
         <main className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
             <div className="card shadow-sm p-4" style={{ maxWidth: 400, width: '100%' }}>
                 <form>
-                    <h1 className="h3 mb-4 fw-bold text-center">Sign In</h1>
+                    <h1 className="h3 mb-4 fw-bold text-center">Sign Up</h1>
                     <div className="form-floating mb-3">
                         <input
                             type="email"
@@ -24,7 +25,7 @@ function Login() {
                         />
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
-                    <div className="form-check mb-3">
+                    {/* <div className="form-check mb-3">
                         <input
                             className="form-check-input"
                             type="checkbox"
@@ -34,12 +35,12 @@ function Login() {
                         <label className="form-check-label" htmlFor="checkDefault">
                             Remember me
                         </label>
-                    </div>
+                    </div> */}
                     <button className="btn btn-primary w-100 py-2" type="submit">
-                        Sign in
+                        Sign Up
                     </button>
                     <div className="mt-3 text-center">
-                        <a href="#" className="link-secondary small">Forgot password?</a>
+                        {/* <a href="#" className="link-secondary small">Forgot password?</a> */}
                     </div>
                     <p className="mt-4 mb-2 text-body-secondary text-center">© 2025-2025</p>
                 </form>
@@ -48,4 +49,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default Signup;
