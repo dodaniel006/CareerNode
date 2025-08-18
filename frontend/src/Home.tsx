@@ -11,28 +11,23 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
     }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-
         e.preventDefault();
-        const form = e.currentTarget;
-        const titleInput = form.elements.namedItem("postTitle") as HTMLInputElement | null;
-        const companyInput = form.elements.namedItem("companyName") as HTMLInputElement | null;
-        const dateInput = form.elements.namedItem("applicationDate") as HTMLInputElement | null;
-        const statusInput = form.elements.namedItem("status") as HTMLSelectElement | null;
 
-        if (title !== "") {
-            setPosts((posts) => [...posts, { title: title, companyName: companyName, applicationDate: applicationDate, lastUpdatedDate: applicationDate, status: status }]);
-            if (titleInput) {
-                titleInput.value = "";
-            }
-            if (companyInput) {
-                companyInput.value = "";
-            }
-            if (dateInput) {
-                dateInput.value = "";
-            }
-            if (statusInput) {
-                statusInput.value = "NA";
-            }
+        if (title !== "" && companyName !== "") {
+            setPosts((posts) => [
+                ...posts,
+                {
+                    title,
+                    companyName,
+                    applicationDate,
+                    lastUpdatedDate: applicationDate,
+                    status,
+                },
+            ]);
+            setTitle("");
+            setCompanyName("");
+            setApplicationDate("");
+            setStatus("NA");
         }
     }
 
@@ -88,6 +83,7 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
                                             placeholder="Enter Job Title"
                                             id="postTitle"
                                             onChange={(event) => setTitle(event.target.value)}
+                                            value={title}
                                             required
                                         />
 
@@ -98,6 +94,7 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
                                             placeholder="Enter Company Name"
                                             id="companyName"
                                             onChange={(event) => setCompanyName(event.target.value)}
+                                            value={companyName}
                                             required
                                         />
 
@@ -108,6 +105,7 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
                                             placeholder="Enter Application Date"
                                             id="applicationDate"
                                             onChange={(event) => setApplicationDate(event.target.value)}
+                                            value={applicationDate}
                                             required
                                         />
 
@@ -117,6 +115,7 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
                                             id="status"
                                             onChange={(event) => setStatus(event.target.value)}
                                             defaultValue=""
+                                            value={status}
                                             required
                                         >
                                             <option value="NA">Not Applied</option>
