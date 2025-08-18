@@ -7,16 +7,8 @@ import jwt from 'jsonwebtoken';
 
 // Environment variables
 const PORT = 8080;
+const saltRounds = 10;
 const uri = process.env.MONGODB_URI!;
-
-// MongoDB client setup
-const client = new MongoClient(uri, {
-    serverApi: {
-        version: ServerApiVersion.v1,
-        strict: true,
-        deprecationErrors: true
-    }
-});
 
 // Express app setup
 const app = express();
@@ -27,12 +19,19 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// MongoDB client setup
+const client = new MongoClient(uri, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true
+    }
+});
+
 // Connect once at startup
 await client.connect();
 
 const db = client.db('careernode');
-
-const saltRounds = 10;
 
 // Routes
 app.get('/api/hello', (req, res) => {
