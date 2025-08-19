@@ -10,8 +10,8 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
         document.getElementById("postList")?.classList.remove("d-none");
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
 
         if (title !== "" && companyName !== "") {
             setPosts((posts) => [

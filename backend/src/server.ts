@@ -51,11 +51,44 @@ app.post('/api/signup', async (req, res) => {
     const { email, password } = req.body;
 
     try {
+        // Check if user already exists
+        const existingUser = await db.collection('users').findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
+
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const result = await db.collection('users').insertOne({ email, password: hashedPassword });
         res.status(201).json({ id: result.insertedId, email });
     } catch (err) {
         res.status(500).json({ error: 'Failed to create user' });
+    }
+});
+
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await db.collection('users').findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+            { userId: user._id, email: user.email },
+            process.env.JWT_SECRET || 'defaultsecret',
+            { expiresIn: '1d' }
+        );
+
+        res.json({ token });
+    } catch (err) {
+        res.status(500).json({ error: 'Login failed' });
     }
 });
 

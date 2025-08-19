@@ -1,8 +1,35 @@
+import { useState } from "react";
+
 function Login() {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function attemptLogin(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        // Handle login logic here
+        const response = await fetch('/api/login', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log("User logged in successfully:", data);
+        } else {
+            const errorData = await response.json();
+            console.error("Error logging in:", errorData);
+        }
+    }
+
     return (
         <main className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
             <div className="card shadow-sm p-4" style={{ maxWidth: 400, width: '100%' }}>
-                <form>
+                <form onSubmit={attemptLogin}>
                     <h1 className="h3 mb-4 fw-bold text-center">Sign In</h1>
                     <div className="form-floating mb-3">
                         <input
@@ -10,6 +37,8 @@ function Login() {
                             className="form-control"
                             id="floatingInput"
                             placeholder="name@example.com"
+                            onChange={(event) => setEmail(event.target.value)}
+                            value={email}
                             required
                         />
                         <label htmlFor="floatingInput">Email address</label>
@@ -20,6 +49,8 @@ function Login() {
                             className="form-control"
                             id="floatingPassword"
                             placeholder="Password"
+                            onChange={(event) => setPassword(event.target.value)}
+                            value={password}
                             required
                         />
                         <label htmlFor="floatingPassword">Password</label>
