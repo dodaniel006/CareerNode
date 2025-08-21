@@ -21,7 +21,7 @@ function Signup() {
             console.log("User signed up successfully:", data);
         } else {
             const errorData = await response.json();
-            console.error("Error signing up:", errorData);
+            alert(`Error signing up: ${errorData.error}`);
         }
     }
 
