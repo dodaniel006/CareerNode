@@ -119,6 +119,35 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.post('/api/submitPost', authMiddleware, async (req, res) => {
+    const { title, companyName, applicationDate, lastUpdatedDate, status } = req.body;
+
+    try {
+        const userId = (req as any).userId;
+        const result = await db.collection('posts').insertOne({
+            userId,
+            title,
+            companyName,
+            applicationDate,
+            lastUpdatedDate,
+            status
+        });
+        res.status(201).json(result);
+    } catch {
+        res.status(500).json({ error: 'Failed to submit post' });
+    }
+});
+
+app.get('/api/getPosts', authMiddleware, async (req, res) => {
+    try {
+        const userId = (req as any).userId;
+        const posts = await db.collection('posts').find({ userId }).toArray();
+        res.json(posts);
+    } catch {
+        res.status(500).json({ error: 'Failed to fetch posts' });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Backend running on http://localhost:${PORT}`);

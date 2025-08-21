@@ -1,19 +1,65 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-function Home({ posts, setPosts }: { posts: { title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[], setPosts: React.Dispatch<React.SetStateAction<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>> }) {
+function Home(
+    { posts, setPosts }: {
+        posts: { title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[],
+        setPosts: React.Dispatch<React.SetStateAction<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>>
+    }
+) {
     const [title, setTitle] = useState<string>("");
     const [companyName, setCompanyName] = useState<string>("");
     const [applicationDate, setApplicationDate] = useState<string>("");
     const [status, setStatus] = useState<string>("");
 
-    if (posts.length > 0) {
-        document.getElementById("postList")?.classList.remove("d-none");
-    }
+    useEffect(() => {
+        if (posts.length > 0) {
+            document.getElementById("postList")?.classList.remove("d-none");
+        }
+    }, [posts]);
+
+    useEffect(() => {
+        fetch('/api/getPosts', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                setPosts(data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
         if (title !== "" && companyName !== "") {
+            fetch('api/submitPost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    title,
+                    companyName,
+                    applicationDate,
+                    lastUpdatedDate: applicationDate,
+                    status
+                })
+            })
+                .then(res => {
+                    if (res.ok) {
+                        return res.json();
+                    }
+                    throw new Error('Failed to submit post');
+                })
+                .catch(err => {
+                    console.error(err);
+                });
             setPosts((posts) => [
                 ...posts,
                 {
@@ -114,7 +160,6 @@ function Home({ posts, setPosts }: { posts: { title: string, companyName: string
                                             className="form-select mb-3"
                                             id="status"
                                             onChange={(event) => setStatus(event.target.value)}
-                                            defaultValue=""
                                             value={status}
                                             required
                                         >
