@@ -156,13 +156,18 @@ app.post('/api/submitPost', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/getPosts', authMiddleware, async (req, res) => {
+app.delete('/api/deletePost/:id', authMiddleware, async (req, res) => {
+    const postId = req.params.id;
+
     try {
         const userId = (req as any).userId;
-        const posts = await db.collection('posts').find({ userId }).toArray();
-        res.json(posts);
+        const result = await db.collection('posts').deleteOne({ _id: new ObjectId(postId), userId });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        res.status(204).send();
     } catch {
-        res.status(500).json({ error: 'Failed to fetch posts' });
+        res.status(500).json({ error: 'Failed to delete post' });
     }
 });
 

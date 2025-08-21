@@ -202,18 +202,29 @@ function Home(
                         </div>
                     </div>
 
+                    {/* Post List */}
                     <ul id="postList" className="list-unstyled d-none mt-3 mb-1">
-                        {posts.map((posts, index) => (
+                        {posts.map((post, index) => (
                             <li key={index} className="card mb-3">
                                 <div className="card-body text-start">
-                                    <h5 className="card-title">{posts.title}</h5>
-                                    <h6 className="card-subtitle mb-2 text-muted">{posts.companyName}</h6>
+                                    <h5 className="card-title">{post.title}</h5>
+                                    <h6 className="card-subtitle mb-2 text-muted">{post.companyName}</h6>
                                     <p className="card-text mb-1">
-                                        <strong>Application Date:</strong> {posts.applicationDate}
+                                        <strong>Application Date:</strong> {post.applicationDate}
                                     </p>
                                     <p className="card-text mb-0">
-                                        <strong>Status:</strong> {posts.status}
+                                        <strong>Status:</strong> {post.status}
                                     </p>
+                                    <button
+                                        className="btn btn-danger btn-sm mt-2"
+                                        onClick={() => {
+                                            if (window.confirm('Are you sure you want to delete this post?')) {
+                                                handleDelete(post._id);
+                                            }
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
                                 </div>
                             </li>
                         ))}
