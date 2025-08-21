@@ -21,6 +21,7 @@ function Login() {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             console.log("User logged in successfully:", data);
+            window.location.href = '/'; // Redirect to home page after login
         } else {
             const errorData = await response.json();
             console.error("Error logging in:", errorData);
