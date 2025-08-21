@@ -9,6 +9,12 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
             .catch(error => console.error('Error fetching API:', error));
     }
 
+    function handleLogout() {
+        setLoggedIn(false);
+        localStorage.removeItem('token');
+        window.location.href = '/login'; // Redirect to login page after logout
+    }
+
     return (
     <header className="container-fluid py-3 mb-4 border-bottom bg-light">
         <div className="row align-items-center">
@@ -31,11 +37,15 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
             </div>
             <div className="col-md-3 d-flex justify-content-end">
                 {loggedIn ? (
-                    <button onClick={() => setLoggedIn(false)} className="btn btn-outline-danger px-4">
+                    <>
+                    {console.log("Logged in")}
+                    <button onClick={handleLogout} className="btn btn-outline-danger px-4">
                         Logout
                     </button>
+                    </>
                 ) : (
                     <>
+                    {console.log("Not logged in")}
                         <button
                             type="button"
                             onClick={() => window.location.href = '/login'}
