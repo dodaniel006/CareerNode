@@ -1,9 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { MongoClient, ServerApiVersion } from 'mongodb';
+import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
+
+import type { Request, Response, NextFunction } from 'express';
 
 // Environment variables
 const PORT = 8080;
@@ -33,9 +35,34 @@ await client.connect();
 
 const db = client.db('careernode');
 
+// Middleware
+function authMiddleware(req: Request, res: Response, next: NextFunction) {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'No token' });
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as jwt.JwtPayload;
+        // Attach userId to req (extend type if needed)
+        (req as any).userId = decoded.userId;
+        next();
+    } catch {
+        res.status(401).json({ error: 'Invalid token' });
+    }
+}
+
 // Routes
 app.get('/api/hello', (req, res) => {
     res.send('Hello from express backend!');
+});
+
+app.get('/api/me', authMiddleware, async (req, res) => {
+    try {
+        const userId = (req as any).userId;
+        const user = await db.collection('users').findOne({ _id: new ObjectId(userId) });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        res.json({ email: user.email });
+    } catch {
+        res.status(500).json({ error: 'Failed to fetch user' });
+    }
 });
 
 app.get('/api/test', async (req, res) => {
@@ -81,7 +108,7 @@ app.post('/api/login', async (req, res) => {
 
         // Create JWT token
         const token = jwt.sign(
-            { userId: user._id, email: user.email },
+            { userId: user._id.toString(), email: user.email },
             process.env.JWT_SECRET || 'defaultsecret',
             { expiresIn: '1d' }
         );
