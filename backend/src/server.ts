@@ -119,6 +119,16 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+app.get('/api/getPosts', authMiddleware, async (req, res) => {
+    try {
+        const userId = (req as any).userId;
+        const posts = await db.collection('posts').find({ userId }).toArray();
+        res.json(posts);
+    } catch {
+        res.status(500).json({ error: 'Failed to fetch posts' });
+    }
+});
+
 app.post('/api/submitPost', authMiddleware, async (req, res) => {
     const { title, companyName, applicationDate, lastUpdatedDate, status } = req.body;
 
@@ -132,7 +142,15 @@ app.post('/api/submitPost', authMiddleware, async (req, res) => {
             lastUpdatedDate,
             status
         });
-        res.status(201).json(result);
+        res.status(201).json({
+            _id: result.insertedId,
+            userId,
+            title,
+            companyName,
+            applicationDate,
+            lastUpdatedDate,
+            status,
+        });
     } catch {
         res.status(500).json({ error: 'Failed to submit post' });
     }

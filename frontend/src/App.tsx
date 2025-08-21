@@ -7,7 +7,7 @@ import Signup from './Signup.tsx';
 import Header from './components/Header.tsx';
 
 function App() {
-  const [posts, setPosts] = useState<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>([]);
+  const [posts, setPosts] = useState<{ _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 

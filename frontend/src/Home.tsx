@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 
 function Home(
     { posts, setPosts }: {
-        posts: { title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[],
-        setPosts: React.Dispatch<React.SetStateAction<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>>
+        posts: { _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[],
+        setPosts: React.Dispatch<React.SetStateAction<{ _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>>
     }
 ) {
     const [title, setTitle] = useState<string>("");
@@ -37,7 +37,7 @@ function Home(
         event.preventDefault();
 
         if (title !== "" && companyName !== "") {
-            fetch('api/submitPost', {
+            fetch('/api/submitPost', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,29 +52,39 @@ function Home(
                 })
             })
                 .then(res => {
-                    if (res.ok) {
-                        return res.json();
-                    }
+                    if (res.ok) return res.json();
                     throw new Error('Failed to submit post');
+                })
+                .then(newPost => {
+                    setPosts(posts => [...posts, newPost]); // newPost includes _id
+                    setTitle("");
+                    setCompanyName("");
+                    setApplicationDate("");
+                    setStatus("NA");
                 })
                 .catch(err => {
                     console.error(err);
                 });
-            setPosts((posts) => [
-                ...posts,
-                {
-                    title,
-                    companyName,
-                    applicationDate,
-                    lastUpdatedDate: applicationDate,
-                    status,
-                },
-            ]);
-            setTitle("");
-            setCompanyName("");
-            setApplicationDate("");
-            setStatus("NA");
         }
+    }
+
+    function handleDelete(id: string) {
+        fetch(`/api/deletePost/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    setPosts(posts => posts.filter(post => post._id !== id));
+                } else {
+                    throw new Error('Failed to delete post');
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     return (
