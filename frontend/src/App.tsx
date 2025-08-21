@@ -9,6 +9,7 @@ import Header from './components/Header.tsx';
 function App() {
   const [posts, setPosts] = useState<{ title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -17,30 +18,32 @@ function App() {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => {
+          setCheckingAuth(false);
           if (res.ok) {
-            // Token is valid, show logged-in view
             setLoggedIn(true);
-            console.log("Logged in");
           } else {
-            // Token invalid/expired, remove and show login
             localStorage.removeItem('token');
-            if (loggedIn) {
-              setLoggedIn(false);
-            }
-            console.log("Logged out");
+            setLoggedIn(false);
           }
         });
+    } else {
+      setCheckingAuth(false);
+      setLoggedIn(false);
     }
   }, []);
 
   return (
     <>
-      <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
-      <Routes>
-        <Route path="/" element={<Home posts={posts} setPosts={setPosts} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      {!checkingAuth && (
+        <>
+          <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+          <Routes>
+            <Route path="/" element={<Home posts={posts} setPosts={setPosts} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </>
+      )}
     </>
   );
 }
