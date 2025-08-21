@@ -8,8 +8,10 @@ function Home(
 ) {
     const [title, setTitle] = useState<string>("");
     const [companyName, setCompanyName] = useState<string>("");
-    const [applicationDate, setApplicationDate] = useState<string>("");
-    const [status, setStatus] = useState<string>("");
+    const [applicationDate, setApplicationDate] = useState<string>(
+        new Date().toISOString().slice(0, 10)
+    );
+    const [status, setStatus] = useState<string>("Not Applied");
 
     useEffect(() => {
         if (posts.length > 0) {
@@ -59,8 +61,8 @@ function Home(
                     setPosts(posts => [...posts, newPost]); // newPost includes _id
                     setTitle("");
                     setCompanyName("");
-                    setApplicationDate("");
-                    setStatus("NA");
+                    setApplicationDate(new Date().toISOString().slice(0, 10));
+                    setStatus("Not Applied");
                 })
                 .catch(err => {
                     console.error(err);
