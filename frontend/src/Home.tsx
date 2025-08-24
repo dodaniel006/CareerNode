@@ -20,6 +20,7 @@ function Home(
     }, [posts]);
 
     useEffect(() => {
+        if (localStorage.getItem('token') == null) return;
         fetch('/api/getPosts', {
             method: 'GET',
             headers: {

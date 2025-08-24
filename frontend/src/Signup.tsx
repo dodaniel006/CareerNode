@@ -7,6 +7,14 @@ function Signup() {
 
     async function submitSignup(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        // Basic email regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address.");
+            return;
+        }
+
         // Handle signup logic here
         const response = await fetch('/api/signup', {
             method: "POST",
@@ -19,6 +27,7 @@ function Signup() {
         if (response.ok) {
             const data = await response.json();
             console.log("User signed up successfully:", data);
+            window.location.href = "/login"; // Redirect to login page
         } else {
             const errorData = await response.json();
             alert(`Error signing up: ${errorData.error}`);
@@ -50,6 +59,7 @@ function Signup() {
                             placeholder="Password"
                             onChange={(event) => setPassword(event.target.value)}
                             value={password}
+                            minLength={6}
                             required
                         />
                         <label htmlFor="floatingPassword">Password</label>

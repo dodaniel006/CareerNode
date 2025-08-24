@@ -77,6 +77,14 @@ app.get('/api/test', async (req, res) => {
 app.post('/api/signup', async (req, res) => {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+    } else if (password.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters long' });
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format' });
+    }
+
     try {
         // Check if user already exists
         const existingUser = await db.collection('users').findOne({ email });
@@ -94,6 +102,10 @@ app.post('/api/signup', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: 'Email and password are required' });
+    }
 
     try {
         const user = await db.collection('users').findOne({ email });
