@@ -97,113 +97,113 @@ function Home(
                 <h1 className="display-4 mb-3">CareerNode</h1>
                 <p className="text">Track your job applications and stay organized on your career journey.</p>
 
-                <div className="card shadow-sm mb-3 d-flex justify-content-center align-items-center flex-column" style={{ minHeight: '500px' }}>
-                    {/* <div className="card-body d-flex justify-content-center align-items-center flex-column"> */}
+                {/* Button to open modal */}
+                <button
+                    type="button"
+                    className="btn btn-primary mb-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    style={{ maxWidth: '100px' }}
+                >
+                    Add Post
+                </button>
 
-                    {/* Button to open modal */}
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        style={{ maxWidth: '100px' }}
-                    >
-                        Add Post
-                    </button>
+                {/* Bootstrap Modal */}
+                <div
+                    className="modal fade"
+                    id="exampleModal"
+                    tabIndex={-1}
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Modal Title</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                ></button>
+                            </div>
 
-                    {/* Bootstrap Modal */}
-                    <div
-                        className="modal fade"
-                        id="exampleModal"
-                        tabIndex={-1}
-                        aria-labelledby="exampleModalLabel"
-                        aria-hidden="true"
-                    >
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLabel">Modal Title</h5>
-                                    <button
-                                        type="button"
-                                        className="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                    ></button>
-                                </div>
+                            <div className="modal-body">
 
-                                <div className="modal-body">
+                                <form className="mb-3" autoComplete="off" onSubmit={handleSubmit}>
 
-                                    <form className="mb-3" autoComplete="off" onSubmit={handleSubmit}>
+                                    <label htmlFor="postTitle">Job Title</label>
+                                    <input
+                                        type="text"
+                                        className="form-control mb-3"
+                                        placeholder="Enter Job Title"
+                                        id="postTitle"
+                                        onChange={(event) => setTitle(event.target.value)}
+                                        value={title}
+                                        required
+                                    />
 
-                                        <label htmlFor="postTitle">Job Title</label>
-                                        <input
-                                            type="text"
-                                            className="form-control mb-3"
-                                            placeholder="Enter Job Title"
-                                            id="postTitle"
-                                            onChange={(event) => setTitle(event.target.value)}
-                                            value={title}
-                                            required
-                                        />
+                                    <label htmlFor="companyName">Company Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control mb-3"
+                                        placeholder="Enter Company Name"
+                                        id="companyName"
+                                        onChange={(event) => setCompanyName(event.target.value)}
+                                        value={companyName}
+                                        required
+                                    />
 
-                                        <label htmlFor="companyName">Company Name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control mb-3"
-                                            placeholder="Enter Company Name"
-                                            id="companyName"
-                                            onChange={(event) => setCompanyName(event.target.value)}
-                                            value={companyName}
-                                            required
-                                        />
+                                    <label htmlFor="applicationDate">Application Date</label>
+                                    <input
+                                        type="date"
+                                        className="form-control mb-3"
+                                        placeholder="Enter Application Date"
+                                        id="applicationDate"
+                                        onChange={(event) => setApplicationDate(event.target.value)}
+                                        value={applicationDate}
+                                        required
+                                    />
 
-                                        <label htmlFor="applicationDate">Application Date</label>
-                                        <input
-                                            type="date"
-                                            className="form-control mb-3"
-                                            placeholder="Enter Application Date"
-                                            id="applicationDate"
-                                            onChange={(event) => setApplicationDate(event.target.value)}
-                                            value={applicationDate}
-                                            required
-                                        />
-
-                                        <label htmlFor="status">Application Status</label>
-                                        <select
-                                            className="form-select mb-3"
-                                            id="status"
-                                            onChange={(event) => setStatus(event.target.value)}
-                                            value={status}
-                                            required
-                                        >
-                                            <option value="NA">Not Applied</option>
-                                            <option value="applied">Applied</option>
-                                            <option value="interview">Interview</option>
-                                            <option value="offer">Offer</option>
-                                            <option value="rejected">Rejected</option>
-                                        </select>
-
-                                        <button
-                                            type="submit"
-                                            className="btn btn-primary mt-3"
-                                        >
-                                            Add Post
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <div className="modal-footer">
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary"
-                                        data-bs-dismiss="modal"
+                                    <label htmlFor="status">Application Status</label>
+                                    <select
+                                        className="form-select mb-3"
+                                        id="status"
+                                        onChange={(event) => setStatus(event.target.value)}
+                                        value={status}
+                                        required
                                     >
-                                        Close
+                                        <option value="NA">Not Applied</option>
+                                        <option value="applied">Applied</option>
+                                        <option value="interview">Interview</option>
+                                        <option value="offer">Offer</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary mt-3"
+                                    >
+                                        Add Post
                                     </button>
-                                </div>
+                                </form>
+                            </div>
+
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    data-bs-dismiss="modal"
+                                >
+                                    Close
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                {/* Post List Container */}
+                <div className="card shadow-sm mb-3 d-flex justify-content-center align-items-center flex-column" style={{ minHeight: '500px' }}>
 
                     {/* Post List */}
                     <ul id="postList" className="list-unstyled d-none mt-3 mb-1">
@@ -235,7 +235,7 @@ function Home(
                 </div>
             </div>
 
-            <p className="text-muted">
+            <p className="text-muted text-center">
                 Daniel Do © 2025
             </p>
 
