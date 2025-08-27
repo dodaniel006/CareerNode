@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
+import Landing from './Landing.tsx';
 import Home from './Home.tsx';
 import Login from './Login.tsx';
 import Signup from './Signup.tsx';
@@ -38,9 +39,10 @@ function App() {
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
           <Routes>
-            <Route path="/" element={<Home posts={posts} setPosts={setPosts} />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/" element={loggedIn ? <Home posts={posts} setPosts={setPosts} /> : <Landing />} />
+            <Route path="/login" element={loggedIn ? <Navigate to="/" /> : <Login />} />
+            <Route path="/signup" element={loggedIn ? <Navigate to="/" /> : <Signup />} />
+            <Route path="/landing" element={<Landing />} />
           </Routes>
         </>
       )}
