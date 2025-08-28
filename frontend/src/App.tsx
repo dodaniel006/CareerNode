@@ -8,7 +8,6 @@ import Signup from './Signup.tsx';
 import Header from './components/Header.tsx';
 
 function App() {
-  const [posts, setPosts] = useState<{ _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
@@ -39,7 +38,7 @@ function App() {
         <>
           <Header loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
           <Routes>
-            <Route path="/" element={loggedIn ? <Home posts={posts} setPosts={setPosts} /> : <Landing />} />
+            <Route path="/" element={loggedIn ? <Home /> : <Landing />} />
             <Route path="/login" element={loggedIn ? <Navigate to="/" /> : <Login />} />
             <Route path="/signup" element={loggedIn ? <Navigate to="/" /> : <Signup />} />
             <Route path="/landing" element={<Landing />} />
