@@ -1,20 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface PostModalProps {
-    posts: { _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[];
     setPosts: React.Dispatch<React.SetStateAction<{ _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>>;
-    editingPostId: string | null;
-    setEditingPostId: React.Dispatch<React.SetStateAction<string | null>>;
+    editingPostId?: string | null;
+    setEditingPostId?: React.Dispatch<React.SetStateAction<string | null>>;
+    editingPost?: { _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string } | null;
 }
 
-function PostModal({ posts, setPosts, editingPostId, setEditingPostId }: PostModalProps) {
-
+function PostModal({ setPosts, editingPostId, setEditingPostId, editingPost }: PostModalProps) {
     const [title, setTitle] = useState<string>("");
     const [companyName, setCompanyName] = useState<string>("");
     const [status, setStatus] = useState<string>("Not Applied");
     const [applicationDate, setApplicationDate] = useState<string>(
         new Date().toISOString().slice(0, 10)
     );
+
+    useEffect(() => {
+        if (editingPost) {
+            setTitle(editingPost.title);
+            setCompanyName(editingPost.companyName);
+            setApplicationDate(editingPost.applicationDate);
+            setStatus(editingPost.status);
+        } else {
+            setTitle("");
+            setCompanyName("");
+            setApplicationDate(new Date().toISOString().slice(0, 10));
+            setStatus("Not Applied");
+        }
+    }, [editingPost]);
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -45,19 +58,19 @@ function PostModal({ posts, setPosts, editingPostId, setEditingPostId }: PostMod
                 })
                 .then(newPost => {
                     if (editingPostId) {
-                        setPosts(posts =>
-                            posts.map(post =>
-                                post._id === editingPostId ? newPost : post
+                        setPosts(post =>
+                            post.map(p =>
+                                p._id === editingPostId ? newPost : p
                             )
                         );
+                        if (setEditingPostId) setEditingPostId(null);
                     } else {
-                        setPosts(posts => [...posts, newPost]);
+                        setPosts(post => [...post, newPost]);
                     }
                     setTitle("");
                     setCompanyName("");
                     setApplicationDate(new Date().toISOString().slice(0, 10));
                     setStatus("Not Applied");
-                    setEditingPostId(null);
                 })
                 .catch(err => {
                     console.error(err);
@@ -71,7 +84,7 @@ function PostModal({ posts, setPosts, editingPostId, setEditingPostId }: PostMod
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id="exampleModalLabel">Modal Title</h5>
+                        <h5 className="modal-title" id="exampleModalLabel">{editingPostId ? "Edit Post" : "Add Post"}</h5>
                         <button
                             type="button"
                             className="btn-close"
@@ -134,21 +147,12 @@ function PostModal({ posts, setPosts, editingPostId, setEditingPostId }: PostMod
 
                             <button
                                 type="submit"
+                                data-bs-dismiss="modal"
                                 className="btn btn-primary mt-3"
                             >
-                                Add Post
+                                {editingPostId ? "Save Changes" : "Add Post"}
                             </button>
                         </form>
-                    </div>
-
-                    <div className="modal-footer">
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                        >
-                            Close
-                        </button>
                     </div>
                 </div>
             </div>

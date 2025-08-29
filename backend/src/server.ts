@@ -168,6 +168,33 @@ app.post('/api/submitPost', authMiddleware, async (req, res) => {
     }
 });
 
+app.put('/api/editPost/:id', authMiddleware, async (req, res) => {
+    const postId = req.params.id;
+    const { title, companyName, applicationDate, lastUpdatedDate, status } = req.body;
+
+    try {
+        const userId = (req as any).userId;
+        const result = await db.collection('posts').updateOne(
+            { _id: new ObjectId(postId), userId },
+            { $set: { title, companyName, applicationDate, lastUpdatedDate, status } }
+        );
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: 'Post not found' });
+        }
+        res.status(201).json({
+            _id: postId,
+            userId,
+            title,
+            companyName,
+            applicationDate,
+            lastUpdatedDate,
+            status,
+        });
+    } catch {
+        res.status(500).json({ error: 'Failed to edit post' });
+    }
+});
+
 app.delete('/api/deletePost/:id', authMiddleware, async (req, res) => {
     const postId = req.params.id;
 

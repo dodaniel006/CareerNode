@@ -75,7 +75,7 @@ function Home() {
                     aria-labelledby="exampleModalLabel"
                     aria-hidden="true"
                 >
-                    <PostModal posts={posts} setPosts={setPosts} editingPostId={editingPostId} setEditingPostId={setEditingPostId} />
+                    <PostModal setPosts={setPosts} />
                 </div>
 
                 {/* Post List Container */}
@@ -104,11 +104,35 @@ function Home() {
                                     >
                                         Delete
                                     </button>
+                                    <button
+                                        className="btn btn-secondary btn-sm mt-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editModal"
+                                        onClick={() => setEditingPostId(post._id)}
+                                    >
+                                        Edit
+                                    </button>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 </div>
+            </div>
+
+            {/* Edit Post Modal */}
+            <div
+                className="modal fade"
+                id="editModal"
+                tabIndex={-1}
+                aria-labelledby="editModalLabel"
+                aria-hidden="true"
+            >
+                <PostModal
+                    setPosts={setPosts}
+                    editingPostId={editingPostId}
+                    setEditingPostId={setEditingPostId}
+                    editingPost={posts.find(post => post._id === editingPostId) || null}
+                />
             </div>
 
             <p className="text-muted text-center">
