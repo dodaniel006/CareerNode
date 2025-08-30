@@ -51,21 +51,20 @@ function Home() {
 
     return (
         <>
-            <div className="container mt-4 row justify-content-center col-12 col-md-8 text-center mx-auto">
-
-                <h1 className="display-4 mb-3">CareerNode</h1>
-                <p className="text">Track your job applications and stay organized on your career journey.</p>
-
+            <div className="container mt-5 col-12 col-md-8 mx-auto">
                 {/* Button to open modal */}
-                <button
-                    type="button"
-                    className="btn btn-primary mb-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    style={{ maxWidth: '100px' }}
-                >
-                    Add Post
-                </button>
+                <div className="d-flex justify-content-center mb-4">
+                    <button
+                        type="button"
+                        className="btn btn-lg btn-primary shadow"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        style={{ minWidth: '140px' }} // Remove this inline style
+                    >
+                        <i className="bi bi-plus-lg me-2"></i>
+                        Add Post
+                    </button>
+                </div>
 
                 {/* Bootstrap Modal */}
                 <div
@@ -79,43 +78,68 @@ function Home() {
                 </div>
 
                 {/* Post List Container */}
-                <div className="card shadow-sm mb-3 d-flex justify-content-center align-items-center flex-column" style={{ minHeight: '500px' }}>
+                <div className="card shadow-lg mb-4 border-0">
 
-                    {/* Post List */}
-                    <ul id="postList" className="list-unstyled d-none mt-3 mb-1">
-                        {posts.map((post, index) => (
-                            <li key={index} className="card mb-3">
-                                <div className="card-body text-start">
-                                    <h5 className="card-title">{post.title}</h5>
-                                    <h6 className="card-subtitle mb-2 text-muted">{post.companyName}</h6>
-                                    <p className="card-text mb-1">
-                                        <strong>Application Date:</strong> {post.applicationDate}
-                                    </p>
-                                    <p className="card-text mb-0">
-                                        <strong>Status:</strong> {post.status}
-                                    </p>
-                                    <button
-                                        className="btn btn-danger btn-sm mt-2 me-2"
-                                        onClick={() => {
-                                            if (window.confirm('Are you sure you want to delete this post?')) {
-                                                handleDelete(post._id);
-                                            }
-                                        }}
-                                    >
-                                        Delete
-                                    </button>
-                                    <button
-                                        className="btn btn-secondary btn-sm mt-2"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#editModal"
-                                        onClick={() => setEditingPostId(post._id)}
-                                    >
-                                        Edit
-                                    </button>
+                    <div className="card-header bg-gradient bg-primary text-white d-flex align-items-center justify-content-between">
+                        <h5 className="mb-0 fw-semibold">
+                            <i className="bi bi-briefcase-fill me-2"></i>
+                            Your Applications
+                        </h5>
+                        <span className="badge bg-light text-primary fs-6">{posts.length}</span>
+                    </div>
+                    <ul id="postList" className="list-group list-group-flush d-none">
+                        {posts.map((post) => (
+                            <li key={post._id} className="list-group-item py-3">
+                                <div className="row align-items-center">
+                                    <div className="col-md-7">
+                                        <h5 className="mb-1 fw-bold text-dark">{post.title}</h5>
+                                        <p className="mb-1">
+                                            <span className="fw-semibold text-secondary">Company:</span> {post.companyName}
+                                        </p>
+                                        <span
+                                            className={`badge px-2 py-1 ${post.status === 'Accepted' ? 'bg-success' : post.status === 'Rejected' ? 'bg-danger' : 'bg-secondary'}`}
+                                            style={{ fontSize: '0.75rem', lineHeight: '1.2' }}
+                                        >
+                                            {post.status}
+                                        </span>
+                                    </div>
+                                    <div className="col-md-3 text-md-end">
+                                        <p className="mb-1">
+                                            <span className="fw-semibold text-secondary">Applied:</span> <span className="text-dark">{post.applicationDate}</span>
+                                        </p>
+                                        <p className="mb-1">
+                                            <span className="fw-semibold text-secondary">Updated:</span> <span className="text-dark">{post.lastUpdatedDate}</span>
+                                        </p>
+                                    </div>
+                                    <div className="col-md-2 text-md-end mt-3 mt-md-0">
+                                        <button
+                                            className="btn btn-outline-danger btn-sm me-2"
+                                            onClick={() => {
+                                                if (window.confirm('Are you sure you want to delete this post?')) {
+                                                    handleDelete(post._id);
+                                                }
+                                            }}
+                                        >
+                                            <i className="bi bi-trash"></i> Delete
+                                        </button>
+                                        <button
+                                            className="btn btn-outline-secondary btn-sm"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editModal"
+                                            onClick={() => setEditingPostId(post._id)}
+                                        >
+                                            <i className="bi bi-pencil"></i> Edit
+                                        </button>
+                                    </div>
                                 </div>
                             </li>
                         ))}
                     </ul>
+                    {posts.length === 0 && (
+                        <div className="card-body text-center text-muted">
+                            <p className="mb-0 fs-5">No applications yet. Click <span className="fw-semibold text-primary">"Add Post"</span> to get started!</p>
+                        </div>
+                    )}
                 </div>
             </div>
 
