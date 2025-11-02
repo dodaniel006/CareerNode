@@ -52,7 +52,7 @@ function authMiddleware(req: Request, res: Response, next: NextFunction) {
 
 // Routes
 app.get('/api/hello', (req, res) => {
-    res.send('Hello from express backend!');
+    res.send('0');
 });
 
 app.get('/api/me', authMiddleware, async (req, res) => {

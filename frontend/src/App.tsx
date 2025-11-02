@@ -13,11 +13,23 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
-  // Ping backend on startup to wake it up
+// Initial ping to wake up backend
   useEffect(() => {
-    fetch(`${API_URL}/api/hello`)
-      .catch(() => console.log('Backend waking up...'));
-  }, []); // Empty dependency array = runs once on mount
+    fetch(`${API_URL}/api/hello`).catch(() => {});
+  }, []);
+
+  // Keep backend alive while user is on the site
+  useEffect(() => {
+    // Ping every 10 minutes (600000ms) while site is open
+    const keepAliveInterval = setInterval(() => {
+      fetch(`${API_URL}/api/hello`)
+        .then(() => console.log('Keep-alive ping sent'))
+        .catch(() => console.log('Keep-alive ping failed'));
+    }, 10 * 60 * 1000); // 10 minutes
+
+    // Cleanup: Stop pinging when component unmounts (user leaves site)
+    return () => clearInterval(keepAliveInterval);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
