@@ -11,13 +11,14 @@ import type { Request, Response, NextFunction } from 'express';
 const PORT = 8080;
 const saltRounds = 10;
 const uri = process.env.MONGODB_URI!;
+const renderURL = process.env.RENDER_URL || '';
 
 // Express app setup
 const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://your-app-name.onrender.com']
+    origin: ['http://localhost:5173', renderURL]
 }));
 app.use(express.json());
 
