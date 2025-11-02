@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
@@ -6,6 +7,7 @@ function Login() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     async function attemptLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -23,7 +25,7 @@ function Login() {
             const data = await response.json();
             localStorage.setItem('token', data.token);
             console.log("User logged in successfully:", data);
-            window.location.href = '/'; // Redirect to home page after login
+            navigate('/'); // Redirect to home page after login
         } else {
             const errorData = await response.json();
             console.error("Error logging in:", errorData);

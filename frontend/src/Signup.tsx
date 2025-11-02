@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
@@ -6,6 +7,7 @@ function Signup() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     async function submitSignup(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -29,7 +31,7 @@ function Signup() {
         if (response.ok) {
             const data = await response.json();
             console.log("User signed up successfully:", data);
-            window.location.href = "/login"; // Redirect to login page
+            navigate('/login'); // Redirect to login page
         } else {
             const errorData = await response.json();
             alert(`Error signing up: ${errorData.error}`);

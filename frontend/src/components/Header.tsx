@@ -1,9 +1,12 @@
 import reactLogo from '../assets/react.svg'
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || '';
 
 function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: React.Dispatch<React.SetStateAction<boolean>> }) {
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log(loggedIn ? "Logged in" : "Not logged in");
@@ -19,7 +22,7 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
     function handleLogout() {
         setLoggedIn(false);
         localStorage.removeItem('token');
-        window.location.href = '/login'; // Redirect to login page after logout
+        navigate('/login'); // Redirect to login page after logout
     }
 
     return (
@@ -53,14 +56,14 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
                         <>
                             <button
                                 type="button"
-                                onClick={() => window.location.href = '/login'}
+                                onClick={() => navigate('/login')}
                                 className="btn btn-outline-primary me-2 px-4"
                             >
                                 Login
                             </button>
                             <button
                                 type="button"
-                                onClick={() => window.location.href = '/signup'}
+                                onClick={() => navigate('/signup')}
                                 className="btn btn-primary px-4"
                             >
                                 Sign-up
