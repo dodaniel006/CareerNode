@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
-function Login() {
+function Login({ setLoggedIn }: { setLoggedIn : React.Dispatch<React.SetStateAction<boolean>> }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -24,7 +24,7 @@ function Login() {
         if (response.ok) {
             const data = await response.json();
             localStorage.setItem('token', data.token);
-            console.log("User logged in successfully:", data);
+            setLoggedIn(true); // Add this!
             navigate('/'); // Redirect to home page after login
         } else {
             const errorData = await response.json();

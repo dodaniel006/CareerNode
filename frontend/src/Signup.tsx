@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL || "";
 
-function Signup() {
+function Signup({ setLoggedIn }: { setLoggedIn : React.Dispatch<React.SetStateAction<boolean>> }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -31,6 +31,7 @@ function Signup() {
         if (response.ok) {
             const data = await response.json();
             console.log("User signed up successfully:", data);
+            setLoggedIn(true); // Add this!
             navigate('/login'); // Redirect to login page
         } else {
             const errorData = await response.json();
