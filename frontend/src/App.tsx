@@ -13,6 +13,12 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
 
+  // Ping backend on startup to wake it up
+  useEffect(() => {
+    fetch(`${API_URL}/api/hello`)
+      .catch(() => console.log('Backend waking up...'));
+  }, []); // Empty dependency array = runs once on mount
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
