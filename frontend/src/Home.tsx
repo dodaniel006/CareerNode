@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import PostModal from './components/PostModal.tsx';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 function Home() {
 
@@ -15,7 +16,7 @@ function Home() {
 
     useEffect(() => {
         if (localStorage.getItem('token') == null) return;
-        fetch('/api/getPosts', {
+        fetch(`${API_URL}/api/getPosts`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -31,7 +32,7 @@ function Home() {
     }, []);
 
     function handleDelete(id: string) {
-        fetch(`/api/deletePost/${id}`, {
+        fetch(`${API_URL}/api/deletePost/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`

@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 function Login() {
 
     const [email, setEmail] = useState("");
@@ -9,7 +11,7 @@ function Login() {
         event.preventDefault();
 
         // Handle login logic here
-        const response = await fetch('/api/login', {
+        const response = await fetch(`${API_URL}/api/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

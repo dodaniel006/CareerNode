@@ -7,6 +7,8 @@ import Login from './Login.tsx';
 import Signup from './Signup.tsx';
 import Header from './components/Header.tsx';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
@@ -14,7 +16,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      fetch('/api/me', {
+      fetch(`${API_URL}/api/me`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => {

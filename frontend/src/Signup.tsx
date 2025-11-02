@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || "";
+
 function Signup() {
 
     const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ function Signup() {
         }
 
         // Handle signup logic here
-        const response = await fetch('/api/signup', {
+        const response = await fetch(`${API_URL}/api/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

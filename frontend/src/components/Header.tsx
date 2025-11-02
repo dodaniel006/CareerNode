@@ -1,6 +1,8 @@
 import reactLogo from '../assets/react.svg'
 import { useEffect } from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: React.Dispatch<React.SetStateAction<boolean>> }) {
 
     useEffect(() => {
@@ -8,7 +10,7 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
     }, [loggedIn]);
 
     function fetchHelloMessage() {
-        fetch('/api/test')
+        fetch(`${API_URL}/api/test`)
             .then(response => response.json())
             .then(data => alert(data.email))
             .catch(error => console.error('Error fetching API:', error));

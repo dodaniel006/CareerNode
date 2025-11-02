@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 interface PostModalProps {
     setPosts: React.Dispatch<React.SetStateAction<{ _id: string, title: string, companyName: string, applicationDate: string, lastUpdatedDate: string, status: string }[]>>;
     editingPostId?: string | null;
@@ -38,7 +40,7 @@ function PostModal({ setPosts, editingPostId, setEditingPostId, editingPost }: P
                 : '/api/submitPost';
             const method = editingPostId ? 'PUT' : 'POST';
 
-            fetch(url, {
+            fetch(`${API_URL}${url}`, {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
