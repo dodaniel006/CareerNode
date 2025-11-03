@@ -13,9 +13,9 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
     }, [loggedIn]);
 
     function fetchHelloMessage() {
-        fetch(`${API_URL}/api/test`)
+        fetch(`${API_URL}/api/hello`)
             .then(response => response.json())
-            .then(data => { if (data.email === 0) alert("Hello from the Server!") })
+            .then(data => { if (data.email) alert("Hello from the Server!") })
             .catch(error => console.error('Error fetching API:', error));
     }
 

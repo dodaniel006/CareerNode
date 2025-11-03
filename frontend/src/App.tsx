@@ -15,7 +15,9 @@ function App() {
 
 // Initial ping to wake up backend
   useEffect(() => {
-    fetch(`${API_URL}/api/hello`).catch(() => {});
+    fetch(`${API_URL}/api/hello`)
+    .then(() => console.log('initial wake ping sent'))
+    .catch(() => console.log('initial wake ping failed'));
   }, []);
 
   // Keep backend alive while user is on the site
