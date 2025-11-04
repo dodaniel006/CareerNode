@@ -1,4 +1,4 @@
-import reactLogo from '../assets/react.svg'
+import logo from '../../public/CareerNode.png'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,8 +37,8 @@ function Header({ loggedIn, setLoggedIn }: { loggedIn: boolean, setLoggedIn: Rea
                 <div className="col-md-3 d-flex align-items-center mb-2 mb-md-0">
                     <a href="/" className="text-dark text-decoration-none">
                         <img
-                            src={reactLogo}
-                            onClick={() => window.location.href = '/'}
+                            src={logo}
+                            onClick={() => navigate('/')}
                             className="logo react me-2"
                             alt="React logo"
                             style={{ height: '40px', cursor: 'pointer' }}
