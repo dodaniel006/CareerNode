@@ -12,13 +12,19 @@ const PORT = 8080;
 const saltRounds = 10;
 const uri = process.env.MONGODB_URI!;
 const renderURL = process.env.RENDER_URL || '';
+const customURL = process.env.CUSTOM_URL || '';
 
 // Express app setup
 const app = express();
 
 // Middleware
 app.use(cors({
-    origin: ['http://localhost:5173', renderURL]
+    origin: [
+        'http://localhost:5173',
+        renderURL,
+        customURL,
+        `www${customURL}`
+    ]
 }));
 app.use(express.json());
 
