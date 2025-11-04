@@ -22,8 +22,10 @@ app.use(cors({
     origin: [
         'http://localhost:5173',
         renderURL,
-        `https://${customURL}`,
-        `https://www${customURL}`
+        customURL,
+        customURL.replace('https://', 'https://www.'),  // Correct way
+        customURL.replace('https://', 'http://'),       // Also allow http
+        customURL.replace('https://', 'http://www.')    // http www version
     ]
 }));
 app.use(express.json());
