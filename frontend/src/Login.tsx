@@ -33,7 +33,7 @@ function Login({ setLoggedIn }: { setLoggedIn : React.Dispatch<React.SetStateAct
     }
 
     return (
-        <main className="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+        <main className="d-flex align-items-center justify-content-center min-vh-100">
             <div className="card shadow-sm p-4" style={{ maxWidth: 400, width: '100%' }}>
                 <form onSubmit={attemptLogin}>
                     <h1 className="h3 mb-4 fw-bold text-center">Sign In</h1>
