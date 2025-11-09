@@ -6,7 +6,6 @@ function Landing() {
                     <div className="mb-4">
                         <h1 className="display-2 fw-bold text-primary mb-3">CareerNode</h1>
                         <p className="lead text-secondary mb-2">
-                            <img src="/Gemini_Generated_Image_q2wfvmq2wfvmq2wf.png" alt="CareerNode logo" className="img-fluid d-block mx-auto mb-3" style={{ maxWidth: 120 }} />
                             Track your job applications and stay organized on your career journey.
                         </p>
                     </div>
